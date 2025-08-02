@@ -1,0 +1,10 @@
+
+from pwn import *
+
+p = remote("10.12.0.1", 1234)
+        
+p.recv("""Timeout!""")
+p.recv("""time="2024-08-11T00:00:04Z" level=error msg="forwarding signal 15 to container fb7187efda23ea3dbcdb6263faf159dfdcd5607a09f940a554f19d258403c0c1: sending signal to container fb7187efda23ea3dbcdb6263faf159dfdcd5607a09f940a554f19d258403c0c1: `/usr/local/bin/crun kill fb7187efda23ea3dbcdb6263faf159dfdcd5607a09f940a554f19d258403c0c1 15` failed: signal: terminated"""")
+p.recv("""Timeout!""")
+
+p.close()

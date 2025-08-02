@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>PCAP Auto Analyzer</title>
+    <style>
+        body {
+            font-family: monospace;
+            background-color: #111;
+            color: #eee;
+            padding: 30px;
+            display: flex;
+        }
+        .left {
+            flex: 2;
+            margin-right: 30px;
+        }
+        .right {
+            flex: 1;
+            background-color: #1a1a1a;
+            padding: 20px;
+            border: 1px solid #333;
+            border-radius: 5px;
+            height: fit-content;
+        }
+        h2 {
+            font-size: 1.6em;
+            margin-bottom: 20px;
+        }
+        select, button, input[type=text] {
+            padding: 10px;
+            margin: 10px 5px 10px 0;
+            font-size: 1em;
+            background-color: #222;
+            color: #0f0;
+            border: 1px solid #0f0;
+        }
+        .result-block {
+            background-color: #1a1a1a;
+            padding: 15px;
+            margin-top: 20px;
+            border: 1px solid #333;
+            border-radius: 5px;
+        }
+        code {
+            background-color: #333;
+            padding: 2px 5px;
+            border-radius: 3px;
+            color: #0ff;
+            white-space: pre-wrap; 
+            word-break: break-all;
+        }
+        a {
+            color: #ff0;
+        }
+        #loading {
+            display: none;
+            margin-top: 20px;
+            font-weight: bold;
+            color: #f90;
+        }
+        form.inline {
+            display: inline;
+        }
+    </style>
+    <script>
+        function showLoading() {
+            document.getElementById('loading').style.display = 'block';
+        }
+    </script>
+</head>
+<body>
+    <div class="left">
+        <h2>[x] Upload ur .pcap - We'll h4x it 4 u</h2>
+        <form method="post" onsubmit="showLoading()">
+            <label for="pcap_select"><strong>[>] Ch00s3 ur .pcap file:</strong></label><br>
+            <select name="pcap_select" id="pcap_select" required>
+                <option value="">-- Select one --</option>
+                <option value="__ALL__">* All files </option>
+                {% for pcap in pcap_files %}
+                    <option value="{{ pcap }}" {% if pcap == selected_file %}selected{% endif %}>{{ pcap }}</option>
+                {% endfor %}
+            </select>
+            <button type="submit">Pwn This File</button>
+        </form>
+
+        <div id="loading">[~] Analyzing... h4ck1ng in pr0gr3ss...</div>
+
+        {% if results %}
+        <h3>[+] R3sultz:</h3>
+        {% for item in results %}
+            <div class="result-block">
+                <b>PCAP:</b> {{ item.pcap }}<br>
+                <b>Exploit:</b>
+                {% if item.exploit %}
+                    <a href="{{ url_for('download_file', filename=item.exploit) }}">{{ item.exploit_abs_path }}</a><br>
+                {% else %}
+                    [n0 3xp10it f0und]<br>
+                {% endif %}
+                <b>Keywordz:</b><br>
+                {% for match in item.matches %}
+                    └ <code>{{ match.keyword }}</code> (<i>{{ match.type }}</i>) -> <code>{{ match.line }}</code><br>
+                {% endfor %}
+            </div>
+        {% endfor %}
+        {% endif %}
+    </div>
+
+    <div class="right">
+        <h2>Keyword Control</h2>
+    <form action="{{ url_for('add_keyword') }}" method="post">
+        <input type="text" name="new_keyword" placeholder="Add new keyword">
+        <button type="submit">Add</button>
+    </form>
+    <ul>
+        {% for keyword in keywords %}
+            <li>
+                {{ keyword }}
+                <form action="{{ url_for('delete_keyword') }}" method="post" style="display: inline;">
+                    <input type="hidden" name="del_keyword" value="{{ keyword }}">
+                    <button type="submit">Delete</button>
+                </form>
+            </li>
+        {% endfor %}
+    </ul>
+
+    <hr>
+
+    <h2>Processed Pcap Directories</h2>
+    <ul>
+        {% for pcap_dir in processed_pcap_dirs %}
+            <li><a href="{{ url_for('pcap_details', dir_name=pcap_dir) }}">{{ pcap_dir }}</a></li>
+        {% endfor %}
+    </ul>
+    </div>
+</body>
+</html>
+

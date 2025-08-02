@@ -1,0 +1,8 @@
+
+from pwn import *
+
+p = remote("10.12.0.1", 1234)
+        
+p.recv("""Error: creating container storage: the container name "bisbee-cold-fusion-on-hypeboy" is already in use by 8ae747de74b582aa95b438b1383f05cd615618cd13034288dd551efb5d9e266c. You have to remove that container to be able to reuse that name: that name is already in use, or use --replace to instruct Podman to do so.""")
+
+p.close()

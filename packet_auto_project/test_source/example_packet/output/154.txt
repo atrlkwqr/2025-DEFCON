@@ -1,0 +1,11 @@
+
+from pwn import *
+
+p = remote("10.12.0.1", 1234)
+        
+p.recv("""REGISTER tHrMb25WyUmOkeKDSc6UFN1vFHImtdM6Laer9QM""")
+p.send("""Error: creating container storage: the container name "bisbee-if-this-works-well-get-fewer-for-next-year-on-hypeboy" is already in use by e4427b77300ec62f76f21afdbe3760ba3c48fc9db5a4cd12759ff177f6cc45e5. You have to remove that container to be able to reuse that name: that name is already in use by an external entity, or use --replace to instruct Podman to do so.""")
+p.send("""Reloading Service...10.10.4.1:11528""")
+p.send("""Reloading Service...10.10.4.1:11528""")
+
+p.close()

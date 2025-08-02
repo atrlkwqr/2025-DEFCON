@@ -1,0 +1,10 @@
+
+from pwn import *
+
+p = remote("10.12.0.1", 1234)
+        
+p.recv("""time="2024-08-10T23:59:51Z" level=error msg="forwarding signal 15 to container c56122bdc26f9da3bf0bddfc8e1ca046aa5a87590af2dcafe2332b166c3b5a91: container has already been removed"""")
+p.recv("""time="2024-08-10T23:59:51Z" level=error msg="forwarding signal 15 to container c56122bdc26f9da3bf0bddfc8e1ca046aa5a87590af2dcafe2332b166c3b5a91: container has already been removed"""")
+p.recv("""time="2024-08-10T23:59:51Z" level=error msg="forwarding signal 15 to container c56122bdc26f9da3bf0bddfc8e1ca046aa5a87590af2dcafe2332b166c3b5a91: container has already been removed"""")
+
+p.close()

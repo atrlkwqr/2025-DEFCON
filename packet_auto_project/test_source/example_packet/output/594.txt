@@ -1,0 +1,10 @@
+
+from pwn import *
+
+p = remote("10.12.0.1", 1234)
+        
+p.recv("""REGISTER hlVvdvKENaDmfOcDxSSnCs0tyTjPEwlnaL""")
+p.send("""if-this-works-well-get-fewer-for-next-year, you are connecting to hypeboy too quickly, please slow down""")
+p.recv("""REGISTER ErGd1cAPlXTCmpHFQxZep4Cp8ljPj31A""")
+
+p.close()

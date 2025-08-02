@@ -1,0 +1,18 @@
+
+from pwn import *
+
+p = remote("10.12.0.1", 1234)
+        
+p.recv("""Welcome to Sokoban!=========================""")
+p.recv("""1. Play game2. Choose a level and play3. Upload a map4. ExitEnter your choice: """)
+p.send("""3""")
+p.recv("""Upload a map to play!Enter the width of the map: """)
+p.send("""16""")
+p.recv("""Enter the height of the map: """)
+p.send("""16""")
+p.recv("""Enter the map line by line:""")
+p.recv("""Line 0: """)
+p.send("""&%(7*;6+'/ED4WNL""")
+p.recv("""Line 1: """)
+
+p.close()

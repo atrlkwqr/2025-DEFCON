@@ -1,0 +1,17 @@
+
+from pwn import *
+
+p = remote("10.12.0.1", 1234)
+        
+p.recv("""Reloading Service...""")
+p.recv("""10.10.4.1:11528""")
+p.recv("""10.10.4.1:11528""")
+p.recv("""Reloading Service...10.10.4.1:11528""")
+p.recv("""Reloading Service...10.10.4.1:11528""")
+p.recv("""Reloading Service...10.10.4.1:11528""")
+p.recv("""Reloading Service...10.10.4.1:11528""")
+p.recv("""Reloading Service...10.10.4.1:11528""")
+p.recv("""Reloading Service...10.10.4.1:11528""")
+p.recv("""Reloading Service...10.10.4.1:11528""")
+
+p.close()

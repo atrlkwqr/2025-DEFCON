@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Details for {{ pcap_name }}</title>
+    <style>
+        body {
+            font-family: monospace;
+            background-color: #111;
+            color: #eee;
+            padding: 30px;
+        }
+        h1, h3 {
+            font-size: 1.6em;
+            margin-bottom: 20px;
+        }
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        li {
+            margin-bottom: 10px;
+        }
+        code {
+            background-color: #333;
+            padding: 2px 5px;
+            border-radius: 3px;
+            color: #0ff;
+            white-space: pre-wrap; 
+            word-break: break-all;
+        }
+        a {
+            color: #ff0;
+        }
+        .result-block {
+            background-color: #1a1a1a;
+            padding: 15px;
+            margin-top: 20px;
+            border: 1px solid #333;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Analysis for {{ pcap_name }}</h1>
+    <a href="{{ url_for('main_page') }}">Back to Main</a>
+    <hr>
+
+    <h3>[+] R3sultz:</h3>
+    {% if keyword_results %}
+        {% for item in keyword_results %}
+            <div class="result-block">
+                <b>PCAP:</b> {{ item.pcap }}<br>
+                <b>Exploit:</b> <a href="{{ url_for('download_file', filename=item.exploit) }}">{{ item.exploit_abs_path }}</a><br>
+                <b>Keywordz:</b><br>
+                {% for match in item.matches %}
+                    └ <code>{{ match.keyword }}</code> (<i>{{ match.type }}</i>) -> <code>{{ match.line | e }}</code><br>
+                {% endfor %}
+            </div>
+        {% endfor %}
+    {% else %}
+        <p>No keyword matches found.</p>
+    {% endif %}
+</body>
+</html>

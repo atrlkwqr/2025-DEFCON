@@ -1,0 +1,6 @@
+DEFcON
+whoami
+Curl
+regex:STELLA\{*\}
+flag
+Gosu

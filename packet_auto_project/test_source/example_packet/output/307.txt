@@ -1,0 +1,20 @@
+
+from pwn import *
+
+p = remote("10.12.0.1", 1234)
+        
+p.recv("""REGISTER a4cZTgCjW6FdNDltcsVQGOO1pYbjiBegXSN3qFAA""")
+p.send("""time="2024-08-11T00:06:52Z" level=warning msg="StopSignal SIGTERM failed to stop container bisbee-if-this-works-well-get-fewer-for-next-year-on-hypeboy in 10 seconds, resorting to SIGKILL"""")
+p.send("""time="2024-08-11T00:06:52Z" level=warning msg="StopSignal SIGTERM failed to stop container bisbee-if-this-works-well-get-fewer-for-next-year-on-hypeboy in 10 seconds, resorting to SIGKILL"""")
+p.send("""time="2024-08-11T00:06:52Z" level=warning msg="StopSignal SIGTERM failed to stop container bisbee-if-this-works-well-get-fewer-for-next-year-on-hypeboy in 10 seconds, resorting to SIGKILL"""")
+p.send("""time="2024-08-11T00:06:52Z" level=warning msg="StopSignal SIGTERM failed to stop container bisbee-if-this-works-well-get-fewer-for-next-year-on-hypeboy in 10 seconds, resorting to SIGKILL"""")
+p.send("""time="2024-08-11T00:06:52Z" level=warning msg="StopSignal SIGTERM failed to stop container bisbee-if-this-works-well-get-fewer-for-next-year-on-hypeboy in 10 seconds, resorting to SIGKILL"""")
+p.send("""time="2024-08-11T00:06:52Z" level=warning msg="StopSignal SIGTERM failed to stop container bisbee-if-this-works-well-get-fewer-for-next-year-on-hypeboy in 10 seconds, resorting to SIGKILL"""")
+p.send("""time="2024-08-11T00:06:52Z" level=warning msg="StopSignal SIGTERM failed to stop container bisbee-if-this-works-well-get-fewer-for-next-year-on-hypeboy in 10 seconds, resorting to SIGKILL"""")
+p.send("""time="2024-08-11T00:06:52Z" level=warning msg="StopSignal SIGTERM failed to stop container bisbee-if-this-works-well-get-fewer-for-next-year-on-hypeboy in 10 seconds, resorting to SIGKILL"""")
+p.send("""time="2024-08-11T00:06:52Z" level=warning msg="StopSignal SIGTERM failed to stop container bisbee-if-this-works-well-get-fewer-for-next-year-on-hypeboy in 10 seconds, resorting to SIGKILL"""")
+p.send("""time="2024-08-11T00:06:52Z" level=warning msg="StopSignal SIGTERM failed to stop container bisbee-if-this-works-well-get-fewer-for-next-year-on-hypeboy in 10 seconds, resorting to SIGKILL"""")
+p.send("""Reloading Service...10.10.4.1:11528""")
+p.send("""time="2024-08-11T00:06:52Z" level=warning msg="StopSignal SIGTERM failed to stop container bisbee-if-this-works-well-get-fewer-for-next-year-on-hypeboy in 10 seconds, resorting to SIGKILL"Reloading Service...10.10.4.1:11528""")
+
+p.close()

