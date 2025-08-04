@@ -4,72 +4,58 @@
     <meta charset="UTF-8">
     <title>PCAP Auto Analyzer</title>
     <style>
-        body {
-            font-family: monospace;
-            background-color: #111;
-            color: #eee;
-            padding: 30px;
-            display: flex;
-        }
-        .left {
-            flex: 2;
-            margin-right: 30px;
-        }
-        .right {
-            flex: 1;
-            background-color: #1a1a1a;
-            padding: 20px;
-            border: 1px solid #333;
-            border-radius: 5px;
-            height: fit-content;
-        }
-        h2 {
-            font-size: 1.6em;
-            margin-bottom: 20px;
-        }
-        select, button, input[type=text] {
-            padding: 10px;
-            margin: 10px 5px 10px 0;
-            font-size: 1em;
-            background-color: #222;
-            color: #0f0;
-            border: 1px solid #0f0;
-        }
-        .result-block {
-            background-color: #1a1a1a;
-            padding: 15px;
-            margin-top: 20px;
-            border: 1px solid #333;
-            border-radius: 5px;
-        }
-        code {
-            background-color: #333;
-            padding: 2px 5px;
-            border-radius: 3px;
-            color: #0ff;
-            white-space: pre-wrap; 
-            word-break: break-all;
-        }
-        a {
-            color: #ff0;
-        }
-        #loading {
-            display: none;
-            margin-top: 20px;
-            font-weight: bold;
-            color: #f90;
-        }
-        form.inline {
-            display: inline;
-        }
+        body { font-family: monospace; background-color: #111; color: #eee; padding: 30px; display: flex; }
+        .left { flex: 2; margin-right: 30px; }
+        .right { flex: 1; background-color: #1a1a1a; padding: 20px; border: 1px solid #333; border-radius: 5px; height: fit-content; }
+        h2 { font-size: 1.6em; margin-bottom: 20px; }
+        select, button, input[type=text] { padding: 10px; margin: 10px 5px 10px 0; font-size: 1em; background-color: #222; color: #0f0; border: 1px solid #0f0; }
+        .result-block { background-color: #1a1a1a; padding: 15px; margin-top: 20px; border: 1px solid #333; border-radius: 5px; }
+        code { background-color: #333; padding: 2px 5px; border-radius: 3px; color: #0ff; white-space: pre-wrap; word-break: break-all; }
+        a { color: #ff0; }
+        #loading { display: none; margin-top: 20px; font-weight: bold; color: #f90; }
+        form.inline { display: inline; }
+        #toast-container { position: fixed; top: 20px; right: 20px; z-index: 9999; }
+        .toast { background-color: #0f0; color: #111; padding: 15px; margin-bottom: 10px; border-radius: 5px; opacity: 0; transition: opacity 0.5s, transform 0.5s; transform: translateX(100%); }
+        .toast.show { opacity: 1; transform: translateX(0); }
     </style>
     <script>
         function showLoading() {
             document.getElementById('loading').style.display = 'block';
         }
+
+        function showToast(message) {
+            const container = document.getElementById('toast-container');
+            const toast = document.createElement('div');
+            toast.className = 'toast';
+            toast.textContent = message;
+            container.appendChild(toast);
+            setTimeout(() => { toast.classList.add('show'); }, 100);
+            setTimeout(() => {
+                toast.classList.remove('show');
+                setTimeout(() => { container.removeChild(toast); }, 500);
+            }, 5000);
+        }
+
+        document.addEventListener('DOMContentLoaded', (event) => {
+            const eventSource = new EventSource("/stream-notifications");
+            eventSource.onmessage = function(e) {
+                console.log("SSE Message Received:", e.data);
+                showToast(e.data);
+            };
+            eventSource.onerror = function(e) {
+                console.error("SSE Error:", e);
+            };
+        });
+
+        function sendTestNotification() {
+            fetch("/test-notification").then(response => {
+                console.log("Test notification request sent.");
+            });
+        }
     </script>
 </head>
 <body>
+    <div id="toast-container"></div>
     <div class="left">
         <h2>[x] Upload ur .pcap - We'll h4x it 4 u</h2>
         <form method="post" onsubmit="showLoading()">
@@ -108,31 +94,30 @@
 
     <div class="right">
         <h2>Keyword Control</h2>
-    <form action="{{ url_for('add_keyword') }}" method="post">
-        <input type="text" name="new_keyword" placeholder="Add new keyword">
-        <button type="submit">Add</button>
-    </form>
-    <ul>
-        {% for keyword in keywords %}
-            <li>
-                {{ keyword }}
-                <form action="{{ url_for('delete_keyword') }}" method="post" style="display: inline;">
-                    <input type="hidden" name="del_keyword" value="{{ keyword }}">
-                    <button type="submit">Delete</button>
-                </form>
-            </li>
-        {% endfor %}
-    </ul>
+        <form action="{{ url_for('add_keyword') }}" method="post">
+            <input type="text" name="new_keyword" placeholder="Add new keyword">
+            <button type="submit">Add</button>
+        </form>
+        <ul>
+            {% for keyword in keywords %}
+                <li>
+                    {{ keyword }}
+                    <form action="{{ url_for('delete_keyword') }}" method="post" style="display: inline;">
+                        <input type="hidden" name="del_keyword" value="{{ keyword }}">
+                        <button type="submit">Delete</button>
+                    </form>
+                </li>
+            {% endfor %}
+        </ul>
 
-    <hr>
+        <hr>
 
-    <h2>Processed Pcap Directories</h2>
-    <ul>
-        {% for pcap_dir in processed_pcap_dirs %}
-            <li><a href="{{ url_for('pcap_details', dir_name=pcap_dir) }}">{{ pcap_dir }}</a></li>
-        {% endfor %}
-    </ul>
+        <h2>Processed Pcap Directories</h2>
+        <ul>
+            {% for pcap_dir in processed_pcap_dirs %}
+                <li><a href="{{ url_for('pcap_details', dir_name=pcap_dir) }}">{{ pcap_dir }}</a></li>
+            {% endfor %}
+        </ul>
     </div>
 </body>
 </html>
-
