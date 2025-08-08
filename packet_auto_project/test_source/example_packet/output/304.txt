@@ -1,8 +1,0 @@
-
-from pwn import *
-
-p = remote("10.12.0.1", 1234)
-        
-p.recv("""Welcome to Sokoban!=========================""")
-
-p.close()

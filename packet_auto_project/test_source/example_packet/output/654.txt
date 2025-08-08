@@ -1,9 +1,0 @@
-
-from pwn import *
-
-p = remote("10.12.0.1", 1234)
-        
-p.recv("""REGISTER 72fwTcHFoRK0sYPQirBoptdUnEqJ7by4kNF""")
-p.send("""time="2024-08-11T00:14:18Z" level=warning msg="StopSignal SIGTERM failed to stop container bisbee-if-this-works-well-get-fewer-for-next-year-on-hypeboy in 10 seconds, resorting to SIGKILL"""")
-
-p.close()

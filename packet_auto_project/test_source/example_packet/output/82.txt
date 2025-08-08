@@ -1,9 +1,0 @@
-
-from pwn import *
-
-p = remote("10.12.0.1", 1234)
-        
-p.recv("""echo Restarting Backup Service...sleep 10#password: `track giveaway utensil finished`""")
-p.recv("""ssh appuser@10.10.4.1 -p 22929""")
-
-p.close()
